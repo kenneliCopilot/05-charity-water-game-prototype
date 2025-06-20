@@ -1,13 +1,139 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Charity Water Game</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+  <title>Water Clicker</title>
+
+  <!-- 样式 -->
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/click-drop.css" />
+  <link rel="stylesheet" href="css/waterWave.css" />
+  <link rel="stylesheet" href="css/rainEffect.css" />
+
+
+
+  <!-- 1. 多语言和存档，先加载 gameSave -->
+  <script src="js/lang.js" defer></script>
+  <script src="js/storage.js" defer></script>
+
+  <!-- 2. 再加载使用 gameSave 的模块 -->
+  <script src="js/activeClick.js" defer></script>
+  <script src="js/autoClick.js" defer></script>
+  <script src="js/activeEvent.js" defer></script>
+  <script src="js/autoEvent.js" defer></script>
+  <script src="js/achievements.js" defer></script>
+
+
+  <!-- 3. 最后加载 game.js，挂事件和 openTab -->
+  <script src="js/game.js" defer></script>
+
+
+
 </head>
+
 <body>
-    <h1>Welcome to the Charity Water Game Prototype</h1>
-    <script src="script.js"></script>
+  <div id="background-wave">
+    <svg viewBox="0 0 574.558 120" preserveAspectRatio="none">
+      <defs>
+        <pattern id="water" width=".25" height="1.1" patternContentUnits="objectBoundingBox">
+          <path fill="#fff"
+            d="M0.25,1H0c0,0,0-0.659,0-0.916c0.083-0.303,0.158,0.334,0.25,0C0.25,0.327,0.25,1,0.25,1z" />
+        </pattern>
+        <mask id="text_mask">
+          <rect width="100%" height="100%" fill="#fff" />
+        </mask>
+      </defs>
+      <rect class="water-fill" mask="url(#text_mask)" fill="url(#water)" x="-400" y="0" width="1600" height="120" />
+    </svg>
+  </div>
+  <section class="rain"></section>
+
+  <div id="app">
+    <!-- 侧边功能栏（桌面在右，移动在上） -->
+    <!-- 侧边功能栏（桌面在右，移动在上） -->
+    <aside id="sidebar">
+      <button class="card nav-btn" data-tab="click">
+        👆 <span data-i18n="tab_active_click">主动点击</span><br />
+        <span class="nav-info">
+          <span data-i18n="click_gain_preview_prefix">每次点击获得：</span><span id="click-gain-preview">--</span>
+        </span>
+      </button>
+
+      <button class="card nav-btn" data-tab="autoClick">
+        🖱️ <span data-i18n="tab_auto_click">自动点击</span><br />
+        <span class="nav-info" id="auto-click-rate">
+          <span data-i18n="auto_click_rate_prefix">每秒产水量：</span>--
+        </span>
+      </button>
+
+      <button class="card nav-btn" data-tab="activeEvent">
+        💯 <span data-i18n="tab_active_event">主动事件</span><br />
+        <span class="nav-info" id="active-event-info">
+          <span data-i18n="active_event_trigger_prefix">还差</span> -- <span
+            data-i18n="active_event_trigger_suffix">次点击触发</span>
+        </span>
+      </button>
+
+      <button class="card nav-btn" data-tab="autoEvent">
+        🌧️ <span data-i18n="tab_auto_event">自动事件</span><br />
+        <span class="nav-info" id="auto-event-info" data-i18n="auto_event_info">每分钟触发降雨</span>
+      </button>
+
+      <button class="card nav-btn" data-tab="achievements">
+        💎 <span data-i18n="tab_achievements">成就收集</span><br />
+        <span class="nav-info" id="achievements-info" data-i18n="achievements_info">点击抽取漂流瓶</span>
+      </button>
+    </aside>
+
+
+
+    <!-- 主要可点击区域 -->
+    <main id="main-area">
+      <h1 id="water-counter">
+        <span data-i18n="label_water">水资源：</span><span id="water-value">0</span>
+      </h1>
+      <div id="click-area"></div>
+    </main>
+
+    <!-- 设置按钮 / 弹窗 -->
+    <button id="settings-btn">⚙️</button>
+
+    <!-- 通用模态 -->
+    <div id="modal" class="hidden">
+      <div class="modal-content">
+        <button id="modal-close">✖</button>
+        <div id="modal-body"><!-- JS 注入 --></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 模板页面：模块HTML都集中在此 -->
+  <div id="hidden-templates" style="display:none"></div>
+  <script>
+    fetch("modules.html")
+      .then(r => r.text())
+      .then(html => {
+        // 挂载模板
+        document.getElementById("hidden-templates").innerHTML = html;
+
+        /* 现在再绑定侧边栏按钮 —— 确保模板已存在 */
+        document.querySelectorAll(".nav-btn").forEach(btn => {
+          btn.addEventListener("click", () => openTab(btn.dataset.tab));
+        });
+      });
+  </script>
+
+
+  <!-- 全局 Toast 提示 -->
+  <div id="toast" class="hidden">
+    <div id="toast-msg"></div>
+  </div>
+
+
 </body>
+
 </html>
