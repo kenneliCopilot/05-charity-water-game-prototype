@@ -1,6 +1,4 @@
-Here's the full English translation of your game design document:
 
----
 
 # Introduction
 
@@ -8,7 +6,7 @@ The goal is to make a real game — one that people actually *want* to play.
 
 Not a piece of junk thrown together just to meet some homework requirement. Not one of those web toys that grabs your attention for ten seconds and then becomes boring.
 
-As undergrads, we don’t yet have the skills to create a great game through flashy visuals. So, how can we attract players *without* fancy graphics? My answer is: through **engaging gameplay**.
+As student, we don’t yet have the skills to create a great game through flashy visuals. So, how can we attract players *without* fancy graphics? My answer is: through **engaging gameplay**.
 
 Think about this: how can we get someone to focus on a game while waiting for food or killing ten minutes before class? I need to find a game mechanic that works — something visually simple, but mechanically rich enough to keep players hooked.
 
@@ -181,6 +179,3 @@ When total water reaches **100 M-t**, the achievement system on the right activa
 
 Clicking rebirth shows an explanation at the top of the screen. If the player accepts, **all progress and resources reset**, but higher-level upgrades and the achievement system become permanently available.
 
----
-
-Let me know if you’d like it polished further for a pitch deck, game design document, or promotional site.
